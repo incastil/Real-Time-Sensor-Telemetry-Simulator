@@ -24,6 +24,24 @@ done
 
 cd "$PROJECT_DIR"
 
+# ─── Ensure CMake is installed ───────────────────────────────────────────────
+if ! command -v cmake &>/dev/null; then
+    echo ">>> cmake not found — installing..."
+    if command -v brew &>/dev/null; then
+        brew install cmake
+    elif command -v apt-get &>/dev/null; then
+        sudo apt-get update -qq && sudo apt-get install -y cmake
+    elif command -v dnf &>/dev/null; then
+        sudo dnf install -y cmake
+    elif command -v pacman &>/dev/null; then
+        sudo pacman -Sy --noconfirm cmake
+    else
+        echo "ERROR: Cannot install cmake — no supported package manager found (brew/apt/dnf/pacman)." >&2
+        echo "       Install cmake manually: https://cmake.org/download/" >&2
+        exit 1
+    fi
+fi
+
 if $CLEAN; then
     echo ">>> Cleaning build directory..."
     rm -rf "$BUILD_DIR"
