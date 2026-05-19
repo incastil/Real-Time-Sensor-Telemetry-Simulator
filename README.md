@@ -65,7 +65,7 @@ flowchart TD
 - GCC ≥ 9 or Clang ≥ 10 (C++17 support)
 - CMake ≥ 3.16
 - Linux (or macOS for local dev)
-- Optional: GoogleTest (`sudo apt install libgtest-dev` / `brew install googletest`)
+- Optional: GoogleTest — auto-installed by `build_run.sh` if missing
 
 ### Quick start
 
