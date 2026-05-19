@@ -99,24 +99,9 @@ cmake --build build --parallel
 
 ---
 
-## Sample Output
+## Demo
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│      REAL-TIME SENSOR TELEMETRY SIMULATOR  v1.0             │
-│      Sensors: TEMP | PRES | VOLT | HRTB | RADS              │
-└─────────────────────────────────────────────────────────────┘
-        TIME │  SNS │       VALUE │    STATE
-───────────────────────────────────────────────────────
-   14:02:00.012 │ VOLT │   29.214 V    │ NORMAL
-   14:02:00.263 │ TEMP │   61.882 °C   │ NORMAL
-   14:02:00.513 │ VOLT │   31.005 V    │ NORMAL
-   14:02:00.516 │ PRES │   14.521 psi  │ NORMAL
-   14:02:00.763 │ VOLT │   27.441 V    │ WARNING
-   14:02:01.014 │ VOLT │   FAULT       │ FAULT
-   14:02:01.016 │ HRTB │   73.400 bpm  │ NORMAL
-   14:02:01.266 │ TEMP │   96.112 °C   │ CRITICAL
-```
+![Terminal demo](docs/demo.svg)
 
 ---
 
