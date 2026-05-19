@@ -42,6 +42,40 @@ if ! command -v cmake &>/dev/null; then
     fi
 fi
 
+# ─── Ensure GoogleTest is installed ─────────────────────────────────────────
+GTEST_HEADER=""
+for candidate in \
+    /opt/homebrew/include/gtest/gtest.h \
+    /usr/local/include/gtest/gtest.h \
+    /usr/include/gtest/gtest.h; do
+    if [ -f "$candidate" ]; then
+        GTEST_HEADER="$candidate"
+        break
+    fi
+done
+
+if [ -z "$GTEST_HEADER" ]; then
+    echo ">>> GoogleTest not found — installing..."
+    if command -v brew &>/dev/null; then
+        brew install googletest
+    elif command -v apt-get &>/dev/null; then
+        sudo apt-get update -qq && sudo apt-get install -y libgtest-dev
+        # On older Debian/Ubuntu libgtest-dev ships sources only — build them
+        if [ ! -f /usr/lib/libgtest.a ] && [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ]; then
+            echo ">>> Building GoogleTest from sources..."
+            cmake -S /usr/src/googletest -B /tmp/gtest-build -DCMAKE_BUILD_TYPE=Release
+            cmake --build /tmp/gtest-build --parallel
+            sudo cmake --install /tmp/gtest-build
+        fi
+    elif command -v dnf &>/dev/null; then
+        sudo dnf install -y gtest-devel
+    elif command -v pacman &>/dev/null; then
+        sudo pacman -Sy --noconfirm gtest
+    else
+        echo "  [WARN] Cannot install GoogleTest — tests will be skipped." >&2
+    fi
+fi
+
 if $CLEAN; then
     echo ">>> Cleaning build directory..."
     rm -rf "$BUILD_DIR"
