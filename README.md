@@ -1,5 +1,11 @@
 # Real-Time Sensor Telemetry Simulator
 
+[![CI](https://github.com/incastil/Real-Time-Sensor-Telemetry-Simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/incastil/Real-Time-Sensor-Telemetry-Simulator/actions/workflows/ci.yml)
+[![C++17](https://img.shields.io/badge/C%2B%2B-17-blue?logo=c%2B%2B&logoColor=white)](https://en.cppreference.com/w/cpp/17)
+[![CMake](https://img.shields.io/badge/cmake-3.16+-064F8C?logo=cmake&logoColor=white)](https://cmake.org/)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-lightgrey)](https://github.com/incastil/Real-Time-Sensor-Telemetry-Simulator)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 A multithreaded C++17 application that simulates spacecraft sensors, streams live telemetry to a color-coded terminal dashboard, and logs all events to a file. Built to demonstrate systems-level engineering skills relevant to simulation and spacecraft-support work (METECS portfolio project).
 
 ---
@@ -71,7 +77,7 @@ flowchart TD
 
 ```bash
 # Clone and enter the project
-git clone <repo-url>
+git clone https://github.com/incastil/Real-Time-Sensor-Telemetry-Simulator.git
 cd Real-Time-Sensor-Telemetry-Simulator
 
 # Build only
@@ -138,6 +144,17 @@ Real-Time-Sensor-Telemetry-Simulator/
 └── scripts/
     └── build_run.sh           # Build/run/test automation
 ```
+
+---
+
+## Systems Engineering Concepts Demonstrated
+
+- **Concurrent producer/consumer architecture** — independent sensor threads push to a shared queue; a dedicated consumer thread drains it without polling
+- **Thread synchronization and race-condition prevention** — `std::mutex` + `std::condition_variable` guard every queue operation; `std::atomic<bool>` controls clean shutdown across threads
+- **Real-time telemetry processing** — readings flow from sensor threads through the queue to the terminal dashboard with sub-second latency
+- **Fault-state simulation and observability** — 5% randomized fault injection per sensor models missing/invalid data; fault sentinel values are classified, displayed, and logged distinctly from alarm states
+- **Structured logging and operational diagnostics** — all readings written to `telemetry.log` with millisecond timestamps; session start/end boundaries enable post-run analysis
+- **Automated unit testing and modular builds** — GoogleTest covers alarm thresholds and queue behavior; CMake builds a static `sensor_lib` linked by both the main executable and the test binary
 
 ---
 
